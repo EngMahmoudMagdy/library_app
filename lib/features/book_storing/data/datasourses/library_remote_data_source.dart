@@ -74,9 +74,6 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
     final response = await client.put(
       Uri.https(baseURL, '/books/${bookModel.id}'),
       body: bookModel.toMap(),
-      headers: {
-        'Content-Type': 'application/json',
-      },
     );
 
     if (response.statusCode != 200) {
@@ -88,9 +85,6 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   Future<void> deleteBookById(int id) async {
     final response = await client.delete(
       Uri.https(baseURL, '/books/$id'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
     );
 
     if (response.statusCode != 200) {
