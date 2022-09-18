@@ -38,6 +38,10 @@ class BookRetrieveState extends BooksState {
 }
 
 class AllBooksRetrieveState extends BooksState {
+  final List<BookModel> list;
+
+  AllBooksRetrieveState(this.list);
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [list];
 }

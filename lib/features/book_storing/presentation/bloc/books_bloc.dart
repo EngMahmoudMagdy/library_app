@@ -7,6 +7,8 @@ import 'package:library_app/features/book_storing/domain/usecases/get_book_by_id
 import 'package:library_app/features/book_storing/domain/usecases/update_book_usecase.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/error/failures.dart';
+
 part 'books_event.dart';
 part 'books_state.dart';
 
@@ -24,8 +26,17 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
       required this.getBookByIdUseCase,
       required this.updateBookUseCase})
       : super(BooksInitial()) {
-    on<BooksEvent>((event, emit) {
-      // TODO: implement event handler
+    on<BooksEvent>((event, emit) async {
+      if (event is GetAllBooksEvent) {
+        emit(LoadingState());
+        final values = await getAllBooksUseCase(NoParams());
+        values.fold((l) {
+          final message = (l is ServerFailure) ? "Server error" : "Cache error";
+          emit(ErrorState(message));
+        }, (r) {
+          emit(AllBooksRetrieveState(r));
+        });
+      }
     });
   }
 }

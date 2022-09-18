@@ -7,7 +7,7 @@ abstract class Failure extends Equatable {
   const Failure([List? properties = _properties]);
 
   @override
-  List<Object> get props => [_properties??""];
+  List<Object> get props => [_properties];
 }
 
 // General failures
