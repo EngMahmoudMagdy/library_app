@@ -21,6 +21,7 @@ dependencies:
   path:
   shared_preferences: ^2.0.15
   sqflite:
+  http_extensions_log: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

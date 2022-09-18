@@ -11,7 +11,7 @@ class BookModel extends Book {
 
   factory BookModel.fromMap(Map<String, dynamic> json) {
     return BookModel(
-      id: (json['id'] as num).toInt(),
+      id: int.parse((json['id'] as String)),
       title: json['title'],
     );
   }

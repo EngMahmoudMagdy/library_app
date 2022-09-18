@@ -38,8 +38,8 @@ Future<void> init(Database database) async {
       ));
 
 
-
   di.registerLazySingleton(() => http.Client());
+
   di.registerLazySingleton(() => DataConnectionChecker());
   di.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(di()));
 

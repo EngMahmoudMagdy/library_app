@@ -35,7 +35,7 @@ class LibraryLocalDataSourceImpl implements LibraryLocalDataSource {
 
   @override
   Future<void> cacheBook(BookModel bookToCache) {
-    return database.insert(tableBook, bookToCache.toMap());
+    return database.insert(tableBook, bookToCache.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   @override
@@ -47,7 +47,7 @@ class LibraryLocalDataSourceImpl implements LibraryLocalDataSource {
   Future<void> cacheBooks(List<BookModel> bookToCache) {
     Batch batch = database.batch();
     bookToCache.forEach((element) {
-      batch.insert(tableBook, element.toMap());
+      batch.insert(tableBook, element.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
     });
     return batch.commit();
   }
