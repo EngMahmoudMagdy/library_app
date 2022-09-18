@@ -62,12 +62,9 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
     final response = await client.post(
       Uri.https(baseURL, booksPath),
       body: bookModel.toMap(),
-      headers: {
-        'Content-Type': 'application/json',
-      },
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 201) {
       throw ServerException();
     }
   }

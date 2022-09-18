@@ -40,7 +40,6 @@ class GetBookByIdEvent extends BooksEvent {
 }
 
 class GetAllBooksEvent extends BooksEvent {
-
   GetAllBooksEvent();
 
   @override

@@ -18,7 +18,7 @@ class BookModel extends Book {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'id': id.toString(),
       'title': title,
     };
   }

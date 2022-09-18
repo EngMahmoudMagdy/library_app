@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/core/utils/constants.dart';
 import 'package:library_app/features/book_storing/presentation/bloc/books_bloc.dart';
+import 'package:library_app/features/book_storing/presentation/pages/add_book_page.dart';
 import 'package:library_app/features/book_storing/presentation/pages/home_page.dart';
+import 'package:library_app/features/book_storing/presentation/pages/update_book_page.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,7 +26,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp
+
+  ({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,11 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
+          routes: <String, WidgetBuilder>{
+            '/': (BuildContext context) => const HomePage(),
+            addBookPage: (BuildContext context) => const AddBookPage(),
+            updateBookPage: (BuildContext context) => const UpdateBookPage()
+          },
           builder: (context, widget) {
             return FutureBuilder(
                 future: di.di.allReady(),

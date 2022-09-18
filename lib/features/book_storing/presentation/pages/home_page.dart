@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/core/utils/constants.dart';
 import 'package:library_app/features/book_storing/presentation/bloc/books_bloc.dart';
-import 'package:library_app/features/book_storing/presentation/pages/add_book_page.dart';
 import 'package:library_app/features/book_storing/presentation/widgets/book_item.dart';
-
-import '../../../../injection_container.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    di<BooksBloc>().add(GetAllBooksEvent());
+    BlocProvider.of<BooksBloc>(context).add(GetAllBooksEvent());
     return Scaffold(
       appBar: AppBar(
         title: const Text(appTitle),
@@ -20,18 +17,25 @@ class HomePage extends StatelessWidget {
       body: BlocConsumer<BooksBloc, BooksState>(
           listener: (context, state) {},
           builder: (context, state) {
-            if (state is LoadingState) {
+            if (state is EmptyState) {
               return Center(
                 child: Column(
-                  children: const [
-                    Text(
-                      "Loading...",
+                  children: [
+                    const SizedBox(
+                      height: 36,
+                    ),
+                    const Text(
+                      "No data available!",
                       style: TextStyle(
-                        color: Colors.blue,
                         fontSize: 18,
                       ),
                     ),
-                    CircularProgressIndicator(),
+                    const SizedBox(
+                      height: 36,
+                    ),
+                    ElevatedButton(
+                        onPressed: () => {_refreshAndFetchBooks(context)},
+                        child: const Text("Refresh")),
                   ],
                 ),
               );
@@ -39,6 +43,9 @@ class HomePage extends StatelessWidget {
               return Center(
                 child: Column(
                   children: [
+                    const SizedBox(
+                      height: 36,
+                    ),
                     const Text(
                       "Error, Please try again",
                       style: TextStyle(
@@ -46,55 +53,60 @@ class HomePage extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
+                    const SizedBox(
+                      height: 36,
+                    ),
                     ElevatedButton(
-                        onPressed: _refreshAndFetchBooks,
+                        onPressed: () => {_refreshAndFetchBooks(context)},
                         child: const Text("Refresh")),
                   ],
                 ),
               );
             } else if (state is AllBooksRetrieveState) {
-              return SingleChildScrollView(
-                child: Center(
-                  child: ListView.builder(
-                    itemCount: state.list.length,
-                    itemBuilder: (context, index) {
-                      final item = state.list[index];
-                      return BookItem(bookModel: item);
-                    },
-                  ),
+              return Center(
+                child: ListView.builder(
+                  itemCount: state.list.length,
+                  itemBuilder: (context, index) {
+                    final item = state.list[index];
+                    return BookItem(bookModel: item);
+                  },
                 ),
               );
             } else {
               return Center(
                 child: Column(
-                  children: [
-                    const Text(
-                      "No data available!",
+                  children: const [
+                    SizedBox(
+                      height: 36,
+                    ),
+                    Text(
+                      "Loading...",
                       style: TextStyle(
+                        color: Colors.blue,
                         fontSize: 18,
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: _refreshAndFetchBooks,
-                        child: const Text("Refresh")),
+                    SizedBox(
+                      height: 36,
+                    ),
+                    CircularProgressIndicator(),
                   ],
                 ),
               );
             }
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _openAddBookPage(context),
+        onPressed: () => {_openAddBookPage(context)},
         child: const Icon(Icons.add),
       ),
     );
   }
 
   void _openAddBookPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const AddBookPage()),
-    );
+    Navigator.of(context).pushNamed(addBookPage);
   }
 
-  void _refreshAndFetchBooks() {}
+  void _refreshAndFetchBooks(BuildContext context) {
+    BlocProvider.of<BooksBloc>(context).add(GetAllBooksEvent());
+  }
 }
