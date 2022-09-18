@@ -26,7 +26,7 @@ class UpdateBookPageState extends State<UpdateBookPage> {
         if (state is ErrorState) {
           _showSnackBar(context, "Error while adding new Book");
         } else if (state is DoneState) {
-          _showSnackBar(context, "Done added new Book to database");
+          _showSnackBar(context, "Done Updated Book in database");
           Navigator.pop(context);
         }
       },
